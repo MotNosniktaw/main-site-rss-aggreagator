@@ -1,12 +1,19 @@
 name: Build and Push
 on: [push]
 jobs:
-  build-and-push:
-    - uses: azure/docker-login@v1
-      with:
-        login-server: mainsiterssfeedaggreatorrepo.azurecr.io
-        username: ${{ secrets.ACR_USERNAME }}
-        password: ${{ secrets.ACR_PASSWORD }}
-    - run: |
-        docker build . -t mainsiterssfeedaggreatorrepo.azurecr.io/rss-feed-aggregator-app:${{ github.sha }}
-        docker push mainsiterssfeedaggreatorrepo.azurecr.io/rss-feed-aggregator-app:${{ github.sha }}
+  build:
+    name: build container image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Log into Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: mainsiterssfeedaggreatorrepo.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+      - name: Build & Push
+        run: |
+          docker build . -t mainsiterssfeedaggreatorrepo.azurecr.io/rss-feed-aggregator-app:${{ github.sha }}
+          docker push mainsiterssfeedaggreatorrepo.azurecr.io/rss-feed-aggregator-app:${{ github.sha }}
