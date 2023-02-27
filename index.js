@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const cors = require("cors");
 const RSSParser = require("rss-parser");
 const { DateTime } = require("luxon");
 
@@ -14,6 +15,8 @@ const urls = [
 
 const app = express();
 const port = process.env.port ?? 80;
+
+app.use(cors());
 
 app.get("/", async (req, res) => {
   const result = await checkRss();
