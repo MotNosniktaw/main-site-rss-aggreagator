@@ -30,6 +30,7 @@ app.get("/", async (req, res) => {
         feedLink: feed.link,
         author: item.author ?? item.creator,
         date: item.isoDate ?? item.pubDate,
+        title: item.title,
         link: item.link,
         content: item.content,
         contentSnippet: item.contentSnippet,
